@@ -1,0 +1,18 @@
+# Real data must never be committed
+*.csv
+*.xlsx
+*.xls
+*.sqlite
+*.sqlite3
+*.db
+*.jsonl
+*.log
+.env
+.env.*
+secrets/
+data/
+local-data/
+private/
+backups/
+cache/
+tmp/
