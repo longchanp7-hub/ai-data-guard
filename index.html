@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <meta name="color-scheme" content="dark" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none';" />
+  <title>AI Data Guard</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">LOCAL-FIRST SECURITY</div>
+        <h1>AI Data Guard</h1>
+      </div>
+      <button class="status-pill" id="modeButton" type="button" aria-label="現在のモード">
+        <span class="status-dot"></span>
+        公開プレビュー
+      </button>
+    </header>
+
+    <main>
+      <section class="warning-card">
+        <div class="warning-icon">!</div>
+        <div>
+          <strong>この公開版はUI確認専用</strong>
+          <p>実データの入力・読み込みは無効です。顧客情報・売上・仕入・未収金などは入れないでください。</p>
+        </div>
+      </section>
+
+      <section class="hero-card">
+        <div class="shield-wrap" aria-hidden="true">
+          <div class="shield">✓</div>
+        </div>
+        <div>
+          <div class="label">SECURITY STATUS</div>
+          <h2>外部送信 0 bytes</h2>
+          <p>Network Egressを前提にせず、機密データ処理をローカル側へ隔離する設計です。</p>
+        </div>
+        <div class="metrics">
+          <div><span>Cloud API</span><b>OFF</b></div>
+          <div><span>Telemetry</span><b>OFF</b></div>
+          <div><span>Cloud Sync</span><b>OFF</b></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <div class="label">SAFE WORKFLOW</div>
+            <h3>安全な処理フロー</h3>
+          </div>
+          <span class="mini-badge">DEMO</span>
+        </div>
+
+        <div class="action-grid">
+          <button class="action-card" data-action="scan" type="button">
+            <span class="action-icon">⌕</span>
+            <span><b>ローカル検査</b><small>機密項目を検出</small></span>
+          </button>
+          <button class="action-card" data-action="mask" type="button">
+            <span class="action-icon">◫</span>
+            <span><b>匿名化</b><small>値をローカル置換</small></span>
+          </button>
+          <button class="action-card" data-action="prompt" type="button">
+            <span class="action-icon">✦</span>
+            <span><b>AI相談用に変換</b><small>構造だけを抽出</small></span>
+          </button>
+          <button class="action-card" data-action="policy" type="button">
+            <span class="action-icon">≡</span>
+            <span><b>ポリシー確認</b><small>禁止事項を表示</small></span>
+          </button>
+        </div>
+      </section>
+
+      <section class="demo-card" id="demoPanel">
+        <div class="demo-head">
+          <div>
+            <div class="label">SYNTHETIC DATA ONLY</div>
+            <h3>デモデータ</h3>
+          </div>
+          <button id="resetDemo" class="ghost-btn" type="button">リセット</button>
+        </div>
+        <div class="table-wrap" aria-label="架空のデモデータ">
+          <table>
+            <thead>
+              <tr><th>顧客名</th><th>電話番号</th><th>売上</th><th>未収</th></tr>
+            </thead>
+            <tbody id="demoTable"></tbody>
+          </table>
+        </div>
+        <div class="result-box" id="resultBox">
+          <div class="result-title">待機中</div>
+          <p>上の機能をタップすると、架空データだけを使って動作イメージを確認できます。</p>
+        </div>
+      </section>
+
+      <section class="policy-card">
+        <div class="section-head compact">
+          <div>
+            <div class="label">ENFORCED RULES</div>
+            <h3>アプリ側で強制するルール</h3>
+          </div>
+        </div>
+        <ul class="policy-list">
+          <li><span>01</span><div><b>実データをクラウドAIへ送信しない</b><small>OpenAI / Gemini / Claude 等への実データ送信を禁止</small></div></li>
+          <li><span>02</span><div><b>匿名化・集計は端末内</b><small>対応表・一時ファイル・ログもローカルに限定</small></div></li>
+          <li><span>03</span><div><b>外部AIへ渡すのは構造だけ</b><small>列構成、エラー内容、ダミー値など最小限に限定</small></div></li>
+          <li><span>04</span><div><b>外部送信が必要なら停止</b><small>送信先・対象・目的を示し、明示許可まで実行しない</small></div></li>
+        </ul>
+      </section>
+
+      <section class="roadmap-card">
+        <div class="label">NEXT BUILD</div>
+        <h3>この外枠から実装を追加</h3>
+        <div class="roadmap-row">
+          <span class="roadmap-chip active">UI / PWA</span>
+          <span class="roadmap-chip">Local File</span>
+          <span class="roadmap-chip">Scanner</span>
+          <span class="roadmap-chip">Masking</span>
+          <span class="roadmap-chip">Local DB</span>
+          <span class="roadmap-chip">Local LLM</span>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="メインナビゲーション">
+      <button class="nav-item active" type="button" data-nav="home"><span>⌂</span><small>ホーム</small></button>
+      <button class="nav-item" type="button" data-nav="guard"><span>◆</span><small>ガード</small></button>
+      <button class="nav-item" type="button" data-nav="history"><span>◷</span><small>履歴</small></button>
+      <button class="nav-item" type="button" data-nav="settings"><span>⚙</span><small>設定</small></button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
