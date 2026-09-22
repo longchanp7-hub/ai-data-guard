@@ -14,8 +14,8 @@ function renderRows(nextMode = 'raw') {
   table.innerHTML = DEMO_ROWS.map((row, idx) => {
     const name = mode === 'mask' ? `<span class="masked">顧客_${String(idx + 1).padStart(3, '0')}</span>` : row.name;
     const phone = mode === 'mask' ? `<span class="masked">***-****-${row.phone.slice(-4)}</span>` : row.phone;
-    const sales = mode === 'mask' ? `<span class="masked">[金額]</span>` : row.sales;
-    const due = mode === 'mask' ? `<span class="masked">[未収金額]</span>` : row.due;
+    const sales = mode === 'mask' ? '<span class="masked">[金額を非表示]</span>' : row.sales;
+    const due = mode === 'mask' ? '<span class="masked">[未収金額を非表示]</span>' : row.due;
     const cls = mode === 'scan' ? ' class="flagged"' : '';
     return `<tr><td${cls}>${name}</td><td${cls}>${phone}</td><td${cls}>${sales}</td><td${cls}>${due}</td></tr>`;
   }).join('');
@@ -35,43 +35,43 @@ function showToast(message) {
 function runAction(action) {
   if (action === 'scan') {
     renderRows('scan');
-    setResult('機密データを検出', '4種類の高リスク項目を検出しました：氏名、電話番号、売上金額、未収金額。外部送信は許可されません。');
-    showToast('ローカル検査のデモを実行');
+    setResult('4種類の注意項目を見つけました', '顧客名、電話番号、売上金額、未収金額です。このまま外部AIへ送る操作は止める設計にします。');
+    showToast('安全チェックのデモを実行');
     return;
   }
   if (action === 'mask') {
     renderRows('mask');
-    setResult('ローカル匿名化', '氏名・電話番号・金額を端末内で置換するイメージです。復元対応表はローカル環境だけに保存する設計にします。');
-    showToast('匿名化デモを実行');
+    setResult('見せなくてよい情報を隠しました', '名前・電話番号・金額を、AIにそのまま見せない形へ変更するイメージです。元の値はPCの外へ出しません。');
+    showToast('安全な表示へ変換');
     return;
   }
   if (action === 'prompt') {
     renderRows('raw');
-    setResult('AI相談用データ', 'クラウドAIへ渡す場合は「列: 顧客ID / 電話番号 / 売上 / 未収。目的: 未収集計ロジックの作成」のように構造と目的だけを抽出し、実値は含めません。');
-    showToast('構造のみの安全な依頼文を生成');
+    setResult('AIへ聞く内容だけを作りました', '例：「顧客一覧に、売上と未収の列があります。未収合計を出すExcel関数を教えてください。」実際の顧客名や金額は入れません。');
+    showToast('AI相談文のデモを作成');
     return;
   }
   if (action === 'policy') {
     document.querySelector('.policy-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    showToast('強制ルールを表示');
+    showToast('アプリが自動で守るルールを表示');
   }
 }
 
 document.querySelectorAll('[data-action]').forEach(btn => btn.addEventListener('click', () => runAction(btn.dataset.action)));
 document.getElementById('resetDemo').addEventListener('click', () => {
   renderRows('raw');
-  setResult('待機中', '上の機能をタップすると、架空データだけを使って動作イメージを確認できます。');
+  setResult('まだ何もしていません', '上のボタンを押すと、架空データだけを使って動作を確認できます。');
 });
 
 document.querySelectorAll('[data-nav]').forEach(btn => btn.addEventListener('click', () => {
   document.querySelectorAll('[data-nav]').forEach(x => x.classList.remove('active'));
   btn.classList.add('active');
-  const labels = { home: 'ホーム', guard: 'ガード', history: '履歴', settings: '設定' };
-  showToast(`${labels[btn.dataset.nav]}は外枠のみ。次の実装で追加します。`);
+  const labels = { home: 'ホーム', guard: '安全確認', history: '作業履歴', settings: '設定' };
+  showToast(`${labels[btn.dataset.nav]}は現在、画面の外枠だけです`);
 }));
 
 document.getElementById('modeButton').addEventListener('click', () => {
-  showToast('公開プレビューでは実データ入力を強制無効化');
+  showToast('公開プレビューでは実データ入力を無効にしています');
 });
 
 renderRows();
