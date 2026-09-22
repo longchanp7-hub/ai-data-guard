@@ -84,3 +84,49 @@ tr:last-child td { border-bottom: 0; }
   .app-shell { border: 1px solid #1f252c; border-radius: 30px; overflow: hidden; min-height: 900px; box-shadow: 0 24px 80px rgba(0,0,0,.38); }
   .bottom-nav { width: 520px; }
 }
+
+
+.persona-card, .steps-card {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(20,25,31,.98), rgba(14,18,23,.98));
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+.persona-card h2 { margin-top: 5px; font-size: 22px; }
+.persona-card p { margin-top: 12px; color: var(--muted); line-height: 1.6; font-size: 12px; }
+.persona-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.persona-list span {
+  border: 1px solid #334039;
+  background: #101713;
+  color: #c6eed7;
+  border-radius: 999px;
+  padding: 7px 9px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.simple-steps { display: grid; gap: 9px; }
+.simple-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  background: #0d1116;
+  border-radius: 14px;
+  padding: 12px;
+}
+.step-no {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #17241d;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid #2c4a3a;
+}
+.simple-step b { display: block; font-size: 12px; }
+.simple-step small { display: block; color: var(--muted); margin-top: 4px; font-size: 10px; line-height: 1.45; }
