@@ -1,3 +1,5 @@
+const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
 const DEMO_ROWS = [
   { name: '佐藤 花子', phone: '090-1234-5678', sales: '¥98,500', due: '¥12,000' },
   { name: '田中 一郎', phone: '080-2468-1357', sales: '¥64,200', due: '¥0' },
@@ -12,17 +14,17 @@ let mode = 'raw';
 function renderRows(nextMode = 'raw') {
   mode = nextMode;
   table.innerHTML = DEMO_ROWS.map((row, idx) => {
-    const name = mode === 'mask' ? `<span class="masked">顧客_${String(idx + 1).padStart(3, '0')}</span>` : row.name;
-    const phone = mode === 'mask' ? `<span class="masked">***-****-${row.phone.slice(-4)}</span>` : row.phone;
-    const sales = mode === 'mask' ? '<span class="masked">[金額を非表示]</span>' : row.sales;
-    const due = mode === 'mask' ? '<span class="masked">[未収金額を非表示]</span>' : row.due;
+    const name = mode === 'mask' ? `<span class="masked">顧客_${String(idx + 1).padStart(3, '0')}</span>` : esc(row.name);
+    const phone = mode === 'mask' ? `<span class="masked">***-****-${row.phone.slice(-4)}</span>` : esc(row.phone);
+    const sales = mode === 'mask' ? '<span class="masked">[金額を非表示]</span>' : esc(row.sales);
+    const due = mode === 'mask' ? '<span class="masked">[未収金額を非表示]</span>' : esc(row.due);
     const cls = mode === 'scan' ? ' class="flagged"' : '';
     return `<tr><td${cls}>${name}</td><td${cls}>${phone}</td><td${cls}>${sales}</td><td${cls}>${due}</td></tr>`;
   }).join('');
 }
 
 function setResult(title, text) {
-  resultBox.innerHTML = `<div class="result-title">${title}</div><p>${text}</p>`;
+  resultBox.innerHTML = `<div class="result-title">${esc(title)}</div><p>${esc(text)}</p>`;
 }
 
 function showToast(message) {
